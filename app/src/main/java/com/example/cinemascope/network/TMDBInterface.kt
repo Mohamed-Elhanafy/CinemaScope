@@ -1,8 +1,8 @@
 package com.example.cinemascope.network
 
-import androidx.lifecycle.MutableLiveData
 import com.example.cinemascope.data.Movie
 import com.example.cinemascope.data.MoviesResponse
+import com.example.cinemascope.utils.Constants.API_KEY
 import com.example.cinemascope.utils.Constants.BASE_URL
 import retrofit2.Call
 import okhttp3.OkHttpClient
@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit
 interface TMDBInterface {
     @GET("movie/popular")
     suspend fun getPopularMovies(
-        @Query("api_key") apiKey: String,
+        @Query("api_key") apiKey: String = API_KEY,
         @Query("language") language: String = "en-US",
         @Query("page") pageNumber: Int,
         @Query("region") region: String = "US",
@@ -26,7 +26,7 @@ interface TMDBInterface {
 
     @GET("movie/upcoming")
     fun getUpcomingMovies(
-        @Query("api_key") apiKey: String,
+        @Query("api_key") apiKey: String = API_KEY,
         @Query("language") language: String = "en-US",
         @Query("page") pageNumber: Int,
         @Query("region") region: String = "US",
@@ -34,7 +34,7 @@ interface TMDBInterface {
 
     @GET("movie/now_playing")
     fun getNowShowingMovies(
-        @Query("api_key") apiKey: String,
+        @Query("api_key") apiKey: String = API_KEY,
         @Query("language") language: String = "en-US",
         @Query("page") pageNumber: Int,
         @Query("region") region: String = "US",
@@ -42,7 +42,7 @@ interface TMDBInterface {
 
     @GET("/discover/movie")
     fun getDiscoverMovies(
-        @Query("api_key") apiKey: String,
+        @Query("api_key") apiKey: String = API_KEY,
         @Query("language") language: String = "en-US",
         @Query("page") pageNumber: Int,
         @Query("region") region: String = "US",
@@ -51,21 +51,21 @@ interface TMDBInterface {
     @GET("movie/{movieId}")
     fun getDetailMovie(
         @Path("movieId") movieId: String,
-        @Query("api_key") apiKey: String,
+        @Query("api_key") apiKey: String = API_KEY,
         @Query("append_to_response") response: String
     ): Response<Movie>
 
     @GET("movie/{id}/videos")
     fun getMovieVideos(
         @Path("id") id: Long,
-        @Query("api_key") apiKey: String
+        @Query("api_key") apiKey: String = API_KEY
     )
             : Response<Movie>
 
     @GET("movie/{id}/credits")
     fun getMovieCredits(
         @Path("id") id: Long,
-        @Query("api_key") apiKey: String
+        @Query("api_key") apiKey: String = API_KEY
     ): Response<Movie>
 
     companion object {
