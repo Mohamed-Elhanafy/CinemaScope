@@ -1,10 +1,9 @@
 package com.example.cinemascope.network
 
-import com.example.cinemascope.data.Movie
+import com.example.cinemascope.data.Result
 import com.example.cinemascope.data.MoviesResponse
 import com.example.cinemascope.utils.Constants.API_KEY
 import com.example.cinemascope.utils.Constants.BASE_URL
-import retrofit2.Call
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -53,20 +52,20 @@ interface TMDBInterface {
         @Path("movieId") movieId: String,
         @Query("api_key") apiKey: String = API_KEY,
         @Query("append_to_response") response: String
-    ): Response<Movie>
+    ): Response<Result>
 
     @GET("movie/{id}/videos")
     fun getMovieVideos(
         @Path("id") id: Long,
         @Query("api_key") apiKey: String = API_KEY
     )
-            : Response<Movie>
+            : Response<Result>
 
     @GET("movie/{id}/credits")
     fun getMovieCredits(
         @Path("id") id: Long,
         @Query("api_key") apiKey: String = API_KEY
-    ): Response<Movie>
+    ): Response<Result>
 
     companion object {
         operator fun invoke(
