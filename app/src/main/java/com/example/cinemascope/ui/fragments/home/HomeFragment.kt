@@ -7,25 +7,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.cinemascope.data.MoviesResponse
+import com.bumptech.glide.Glide
+import com.example.cinemascope.data.Genre
 import com.example.cinemascope.databinding.FragmentHomeBinding
-import com.example.cinemascope.network.TMDBInterface
+import com.example.cinemascope.ui.adapters.InTheatersMoviesAdapter
 import com.example.cinemascope.ui.adapters.PopularMoviesAdapter
-import com.example.cinemascope.utils.Constants.API_KEY
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.cinemascope.ui.adapters.UpcomingMoviesAdapter
+import com.example.cinemascope.utils.Constants.BASE_URL_IMAGE
 
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel by viewModels<HomeViewModel>()
+
     private val popularMoviesAdapter by lazy { PopularMoviesAdapter() }
+    private val upcomingMoviesAdapter by lazy { UpcomingMoviesAdapter() }
+    private val inTheatersMoviesAdapter by lazy { InTheatersMoviesAdapter() }
+
+    private lateinit var genere: List<Genre>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,17 +34,70 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding
             .inflate(inflater, container, false)
         return binding.root
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getPopularMovies()
-        setupRecyclerView()
 
-        //getPopularMovies and bind it with the adapter
+        viewModel.getPopularMovies()
+        viewModel.getUpcomingMovies()
+        viewModel.getInTheatersMovies()
+        viewModel.getHighlightedMovie()
+        viewModel.getGenreName()
+
         observePopularMovies()
+        observeUpcomingMovies()
+        observeInTheatersMovies()
+        observeHighlightedMovie()
+        observeGenreName()
+
+        setupPopularMoviesRecyclerView()
+        setupUpcomingMoviesRecyclerView()
+        setupInTheatersMoviesRecyclerView()
+
 
     }
+
+    private fun observeGenreName() {
+        viewModel.genreName.observe(viewLifecycleOwner) {
+            Log.i("TAG", "observeGenreName: $it ")
+            genere = it!!
+        }
+    }
+
+    private fun observeHighlightedMovie() {
+        viewModel.highlightedMovie.observe(viewLifecycleOwner) {
+            Log.i("TAG", "observeHighlightedMovie: $it")
+
+            Glide.with(requireContext())
+                .load(BASE_URL_IMAGE + it?.backdropPath)
+                .into(binding.hlMovieImage)
+
+            binding.hlMovieTitle.text = it?.title
+            binding.hlNumOfVotes.text = it?.voteCount.toString()
+            binding.hlRatingBar.rating = it?.voteAverage?.toFloat() ?: 0f
+            binding.hlMovieGenrePrimary.text =
+                genere.find { genre -> genre.id == it?.genreIds?.get(0) }?.name
+
+            if (it?.genreIds?.get(1) != null) {
+                binding.hlMovieGenreSecondary.text =
+                    genere.find { genre -> genre.id == it.genreIds[1] }?.name
+            } else {
+                binding.hlMovieGenreSecondary.visibility = View.GONE
+            }
+
+        }
+    }
+
+
+    private fun observeInTheatersMovies() {
+        viewModel.inTheatersMovies.observe(viewLifecycleOwner) {
+            inTheatersMoviesAdapter.differ.submitList(it?.results)
+        }
+    }
+
 
     private fun observePopularMovies() {
         viewModel.popularMovies.observe(viewLifecycleOwner) {
@@ -52,7 +105,13 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setupRecyclerView() {
+    private fun observeUpcomingMovies() {
+        viewModel.upcomingMovies.observe(viewLifecycleOwner) {
+            upcomingMoviesAdapter.differ.submitList(it?.results)
+        }
+    }
+
+    private fun setupPopularMoviesRecyclerView() {
         binding.popularRecyclerView.apply {
             adapter = popularMoviesAdapter
             layoutManager = LinearLayoutManager(
@@ -63,5 +122,26 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun setupUpcomingMoviesRecyclerView() {
+        binding.upcomingRecyclerView.apply {
+            adapter = upcomingMoviesAdapter
+            layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        }
+    }
+
+    private fun setupInTheatersMoviesRecyclerView() {
+        binding.inTheatersRecyclerView.apply {
+            adapter = inTheatersMoviesAdapter
+            layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        }
+    }
 
 }

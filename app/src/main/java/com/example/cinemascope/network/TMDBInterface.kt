@@ -1,5 +1,7 @@
 package com.example.cinemascope.network
 
+import com.example.cinemascope.data.Genre
+import com.example.cinemascope.data.GenresResponse
 import com.example.cinemascope.data.Result
 import com.example.cinemascope.data.MoviesResponse
 import com.example.cinemascope.utils.Constants.API_KEY
@@ -22,9 +24,14 @@ interface TMDBInterface {
         @Query("page") pageNumber: Int,
         @Query("region") region: String = "US",
     ): Response<MoviesResponse>
+    @GET("genre/movie/list")
+    suspend fun getMovieGenreList(
+        @Query("api_key") apiKey: String = API_KEY,
+        @Query("language") language: String = "en-US",
+    ): Response<GenresResponse>
 
     @GET("movie/upcoming")
-    fun getUpcomingMovies(
+    suspend fun getUpcomingMovies(
         @Query("api_key") apiKey: String = API_KEY,
         @Query("language") language: String = "en-US",
         @Query("page") pageNumber: Int,
@@ -32,7 +39,7 @@ interface TMDBInterface {
     ): Response<MoviesResponse>
 
     @GET("movie/now_playing")
-    fun getNowShowingMovies(
+    suspend fun getNowShowingMovies(
         @Query("api_key") apiKey: String = API_KEY,
         @Query("language") language: String = "en-US",
         @Query("page") pageNumber: Int,
@@ -40,7 +47,7 @@ interface TMDBInterface {
     ): Response<MoviesResponse>
 
     @GET("/discover/movie")
-    fun getDiscoverMovies(
+    suspend fun getDiscoverMovies(
         @Query("api_key") apiKey: String = API_KEY,
         @Query("language") language: String = "en-US",
         @Query("page") pageNumber: Int,
@@ -48,21 +55,21 @@ interface TMDBInterface {
     ): Response<MoviesResponse>
 
     @GET("movie/{movieId}")
-    fun getDetailMovie(
+    suspend fun getDetailMovie(
         @Path("movieId") movieId: String,
         @Query("api_key") apiKey: String = API_KEY,
         @Query("append_to_response") response: String
     ): Response<Result>
 
     @GET("movie/{id}/videos")
-    fun getMovieVideos(
+    suspend fun getMovieVideos(
         @Path("id") id: Long,
         @Query("api_key") apiKey: String = API_KEY
     )
             : Response<Result>
 
     @GET("movie/{id}/credits")
-    fun getMovieCredits(
+    suspend fun getMovieCredits(
         @Path("id") id: Long,
         @Query("api_key") apiKey: String = API_KEY
     ): Response<Result>
