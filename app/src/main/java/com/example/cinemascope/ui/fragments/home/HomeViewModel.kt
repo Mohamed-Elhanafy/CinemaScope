@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cinemascope.data.Genre
 import com.example.cinemascope.data.MoviesResponse
-import com.example.cinemascope.data.Result
+import com.example.cinemascope.data.Movie
 import com.example.cinemascope.network.TMDBInterface
 import com.example.cinemascope.repository.remote.MovieRepository
 import kotlinx.coroutines.launch
@@ -29,8 +29,8 @@ class HomeViewModel : ViewModel() {
     private val _inTheatersMovies = MutableLiveData<MoviesResponse?>()
     val inTheatersMovies: LiveData<MoviesResponse?> = _inTheatersMovies
 
-    private val _highlightedMovie = MutableLiveData<Result?>()
-    val highlightedMovie: LiveData<Result?> = _highlightedMovie
+    private val _highlightedMovie = MutableLiveData<Movie?>()
+    val highlightedMovie: LiveData<Movie?> = _highlightedMovie
 
     private val _genreName = MutableLiveData<List<Genre>?>()
     val genreName: LiveData<List<Genre>?> = _genreName

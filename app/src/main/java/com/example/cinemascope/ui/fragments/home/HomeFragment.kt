@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.cinemascope.data.Genre
+import com.example.cinemascope.data.Movie
 import com.example.cinemascope.databinding.FragmentHomeBinding
 import com.example.cinemascope.ui.adapters.ListMoviesAdapter
 import com.example.cinemascope.utils.Constants.BASE_URL_IMAGE
@@ -77,17 +78,21 @@ class HomeFragment : Fragment() {
             binding.hlMovieTitle.text = it?.title
             binding.hlNumOfVotes.text = it?.voteCount.toString()
             binding.hlRatingBar.rating = it?.voteAverage?.toFloat() ?: 0f
-            binding.hlMovieGenrePrimary.text =
-                genere.find { genre -> genre.id == it?.genreIds?.get(0) }?.name
-
-            if (it?.genreIds?.get(1) != null) {
-                binding.hlMovieGenreSecondary.text =
-                    genere.find { genre -> genre.id == it.genreIds[1] }?.name
-            } else {
-                binding.hlMovieGenreSecondary.visibility = View.GONE
-            }
+            setupGenre(it)
 
         }
+    }
+
+    private fun setupGenre(it: Movie?) {
+/*        binding.hlMovieGenrePrimary.text =
+            genere.find { genre -> genre.id == it?.genreIds?.get(0) }?.name
+
+        if (it?.genreIds?.get(1) != null) {
+            binding.hlMovieGenreSecondary.text =
+                genere.find { genre -> genre.id == it.genreIds[1] }?.name
+        } else {
+            binding.hlMovieGenreSecondary.visibility = View.GONE
+        }*/
     }
 
 

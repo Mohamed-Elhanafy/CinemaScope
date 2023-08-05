@@ -1,8 +1,7 @@
 package com.example.cinemascope.network
 
-import com.example.cinemascope.data.Genre
 import com.example.cinemascope.data.GenresResponse
-import com.example.cinemascope.data.Result
+import com.example.cinemascope.data.Movie
 import com.example.cinemascope.data.MoviesResponse
 import com.example.cinemascope.utils.Constants.API_KEY
 import com.example.cinemascope.utils.Constants.BASE_URL
@@ -59,20 +58,20 @@ interface TMDBInterface {
         @Path("movieId") movieId: String,
         @Query("api_key") apiKey: String = API_KEY,
         @Query("append_to_response") response: String
-    ): Response<Result>
+    ): Response<Movie>
 
     @GET("movie/{id}/videos")
     suspend fun getMovieVideos(
         @Path("id") id: Long,
         @Query("api_key") apiKey: String = API_KEY
     )
-            : Response<Result>
+            : Response<Movie>
 
     @GET("movie/{id}/credits")
     suspend fun getMovieCredits(
         @Path("id") id: Long,
         @Query("api_key") apiKey: String = API_KEY
-    ): Response<Result>
+    ): Response<Movie>
 
     companion object {
         operator fun invoke(

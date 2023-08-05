@@ -1,22 +1,27 @@
 package com.example.cinemascope.ui.fragments.movies
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.cinemascope.R
 import com.example.cinemascope.databinding.FragmentMoviesBinding
 import com.example.cinemascope.ui.adapters.ListMoviesAdapter
+import com.example.cinemascope.utils.Constants.MOVIE_BUNDLE
+
 
 private const val TAG = "MoviesFragment"
 
 class MoviesFragment : Fragment() {
 
     private lateinit var binding: FragmentMoviesBinding
-    private val viewModel by  viewModels<MoviesViewModel>()
+    private val viewModel by viewModels<MoviesViewModel>()
     private val allMoviesAdapter by lazy { ListMoviesAdapter() }
 
 
@@ -33,10 +38,11 @@ class MoviesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getAllMovies()
 
-        setupAllMoviesRecyclerView()
-
         observeMovies()
         observeLoading()
+
+        setupAllMoviesRecyclerView()
+
 
     }
 
@@ -50,9 +56,17 @@ class MoviesFragment : Fragment() {
 
         allMoviesAdapter.onClick = {
             Log.i(TAG, "onViewCreated: $it")
-            //todo navigate to details fragment
+            val bundle = Bundle().apply {
+                putParcelable(MOVIE_BUNDLE, it)
+            }
+            findNavController().navigate(
+                R.id.action_moviesFragment_to_movieDetailsFragment,
+                bundle
+            )
+
         }
     }
+
 
     private fun observeMovies() {
         viewModel.Movies.observe(viewLifecycleOwner) {

@@ -1,15 +1,18 @@
 package com.example.cinemascope.data
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Movie(
     @SerializedName("adult")
     val adult: Boolean,
     @SerializedName("backdrop_path")
     val backdropPath: String,
     @SerializedName("belongs_to_collection")
-    val belongsToCollection: Any,
+    val belongsToCollection: Boolean,
     @SerializedName("budget")
     val budget: Int,
     @SerializedName("genres")
@@ -31,9 +34,9 @@ data class Movie(
     @SerializedName("poster_path")
     val posterPath: String,
     @SerializedName("production_companies")
-    val productionCompanies: List<ProductionCompany>,
+    val productionCompanies: List<ProductionCompany> = emptyList() ,
     @SerializedName("production_countries")
-    val productionCountries: List<ProductionCountry>,
+    val productionCountries: List<ProductionCountry> =emptyList(),
     @SerializedName("release_date")
     val releaseDate: String,
     @SerializedName("revenue")
@@ -41,7 +44,7 @@ data class Movie(
     @SerializedName("runtime")
     val runtime: Int,
     @SerializedName("spoken_languages")
-    val spokenLanguages: List<SpokenLanguage>,
+    val spokenLanguages: List<SpokenLanguage> = emptyList(),
     @SerializedName("status")
     val status: String,
     @SerializedName("tagline")
@@ -54,4 +57,33 @@ data class Movie(
     val voteAverage: Double,
     @SerializedName("vote_count")
     val voteCount: Int
-)
+): Parcelable
+{
+    constructor() : this(
+        false,
+        "",
+        false,
+        0,
+        emptyList(),
+        "",
+        0,
+        "",
+        "",
+        "",
+        "",
+        0.0,
+        "",
+        emptyList(),
+        emptyList(),
+        "",
+        0,
+        0,
+        emptyList(),
+        "",
+        "",
+        "",
+        false,
+        0.0,
+        0
+    )
+}
