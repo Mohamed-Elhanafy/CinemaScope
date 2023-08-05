@@ -11,9 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.cinemascope.data.Genre
 import com.example.cinemascope.databinding.FragmentHomeBinding
-import com.example.cinemascope.ui.adapters.InTheatersMoviesAdapter
-import com.example.cinemascope.ui.adapters.PopularMoviesAdapter
-import com.example.cinemascope.ui.adapters.UpcomingMoviesAdapter
+import com.example.cinemascope.ui.adapters.ListMoviesAdapter
 import com.example.cinemascope.utils.Constants.BASE_URL_IMAGE
 
 
@@ -21,9 +19,9 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel by viewModels<HomeViewModel>()
 
-    private val popularMoviesAdapter by lazy { PopularMoviesAdapter() }
-    private val upcomingMoviesAdapter by lazy { UpcomingMoviesAdapter() }
-    private val inTheatersMoviesAdapter by lazy { InTheatersMoviesAdapter() }
+    private val popularMoviesAdapter by lazy { ListMoviesAdapter() }
+    private val upcomingMoviesAdapter by lazy { ListMoviesAdapter() }
+    private val inTheatersMoviesAdapter by lazy { ListMoviesAdapter() }
 
     private lateinit var genere: List<Genre>
 
@@ -50,8 +48,9 @@ class HomeFragment : Fragment() {
         observePopularMovies()
         observeUpcomingMovies()
         observeInTheatersMovies()
-        observeHighlightedMovie()
         observeGenreName()
+        observeHighlightedMovie()
+
 
         setupPopularMoviesRecyclerView()
         setupUpcomingMoviesRecyclerView()

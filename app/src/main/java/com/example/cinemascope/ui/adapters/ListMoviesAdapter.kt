@@ -10,8 +10,8 @@ import com.example.cinemascope.data.Result
 import com.example.cinemascope.databinding.ListItemMovieBinding
 import com.example.cinemascope.utils.Constants.BASE_URL_IMAGE
 
-class InTheatersMoviesAdapter : RecyclerView.Adapter<InTheatersMoviesAdapter.InTheatersMoviesViewHolder>() {
-    inner class InTheatersMoviesViewHolder(private val binding: ListItemMovieBinding) :
+class ListMoviesAdapter : RecyclerView.Adapter<ListMoviesAdapter.ListMoviesViewHolder>() {
+    inner class ListMoviesViewHolder(private val binding: ListItemMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(result: Result) {
             binding.apply {
@@ -34,8 +34,8 @@ class InTheatersMoviesAdapter : RecyclerView.Adapter<InTheatersMoviesAdapter.InT
 
     }
     val differ = AsyncListDiffer(this, diffCallback)
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InTheatersMoviesViewHolder {
-        return InTheatersMoviesViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListMoviesViewHolder {
+        return ListMoviesViewHolder(
             ListItemMovieBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -48,8 +48,16 @@ class InTheatersMoviesAdapter : RecyclerView.Adapter<InTheatersMoviesAdapter.InT
         return differ.currentList.size
     }
 
-    override fun onBindViewHolder(holder: InTheatersMoviesViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ListMoviesViewHolder, position: Int) {
         val result = differ.currentList[position]
         holder.bind(result)
+        holder.itemView.setOnClickListener {
+            onClick?.let {
+                it(result)
+            }
+        }
+
     }
+
+    var onClick: ((Result) -> Unit)? = null
 }
