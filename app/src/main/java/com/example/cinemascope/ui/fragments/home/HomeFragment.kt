@@ -119,6 +119,9 @@ class HomeFragment : Fragment() {
                 false
             )
         }
+        popularMoviesAdapter.onClick = {
+            Log.i("TAG", "setupPopularMoviesRecyclerView: $it")
+        }
     }
 
     private fun setupUpcomingMoviesRecyclerView() {
@@ -130,6 +133,9 @@ class HomeFragment : Fragment() {
                 false
             )
         }
+        upcomingMoviesAdapter.onClick = {
+            Log.i("TAG", "setupPopularMoviesRecyclerView: $it")
+        }
     }
 
     private fun setupInTheatersMoviesRecyclerView() {
@@ -140,6 +146,9 @@ class HomeFragment : Fragment() {
                 LinearLayoutManager.HORIZONTAL,
                 false
             )
+        }
+        inTheatersMoviesAdapter.onClick = {
+            Log.i("TAG", "setupPopularMoviesRecyclerView: $it")
         }
     }
 
