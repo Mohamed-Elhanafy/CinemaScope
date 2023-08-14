@@ -28,6 +28,14 @@ interface TMDBInterface {
         @Query("region") region: String = "US",
     ): Response<MoviesResponse>
 
+    @GET("tv/popular")
+    suspend fun getPopularShows(
+        @Query("api_key") apiKey: String = API_KEY,
+        @Query("language") language: String = "en-US",
+        @Query("page") pageNumber: Int,
+        @Query("region") region: String = "US",
+    ): Response<MoviesResponse>
+
     @GET("genre/movie/list")
     suspend fun getMovieGenreList(
         @Query("api_key") apiKey: String = API_KEY,

@@ -9,6 +9,9 @@ class MovieRepository(
     suspend fun fetchPopularMovies(pageNumber: Int) =
         service.getPopularMovies(pageNumber = pageNumber)
 
+    suspend fun fetchPopularShows(pageNumber: Int) =
+        service.getPopularShows(pageNumber = pageNumber)
+
     suspend fun fetchUpcomingMovies(pageNumber: Int) =
         service.getUpcomingMovies(pageNumber = pageNumber)
 
