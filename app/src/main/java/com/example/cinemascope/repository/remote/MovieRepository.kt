@@ -17,4 +17,10 @@ class MovieRepository(
 
     suspend fun fetchGenres() =
         service.getMovieGenreList()
+
+    suspend fun fetchVideos(movieId: Long) =
+        service.getMovieVideos(id = movieId)
+
+    suspend fun fetchCast(movieId: Long) =
+        service.getMovieCredits(id = movieId)
 }
