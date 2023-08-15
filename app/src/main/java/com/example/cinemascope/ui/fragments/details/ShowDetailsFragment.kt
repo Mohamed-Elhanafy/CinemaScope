@@ -2,31 +2,30 @@ package com.example.cinemascope.ui.fragments.details
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.cinemascope.databinding.FragmentMovieDetailsBinding
+import com.example.cinemascope.databinding.FragmentShowDetailsBinding
 import com.example.cinemascope.network.TMDBInterface
 import com.example.cinemascope.repository.remote.MovieRepository
 import com.example.cinemascope.ui.adapters.ListCastAdapter
 import com.example.cinemascope.ui.adapters.ListVideoAdapter
-import com.example.cinemascope.utils.Constants.BASE_URL_IMAGE
+import com.example.cinemascope.utils.Constants
 import kotlinx.coroutines.launch
 
-private const val TAG = "MovieDetailsFragment"
 
-class MovieDetailsFragment : Fragment() {
+private const val TAG = "ShowDetailsFragment"
 
-
-    private lateinit var binding: FragmentMovieDetailsBinding
+class ShowDetailsFragment: Fragment() {
+    private lateinit var binding: FragmentShowDetailsBinding
     private val castingAdapter by lazy { ListCastAdapter() }
     private val videoAdapter by lazy { ListVideoAdapter() }
-    private val movieArgs by navArgs<MovieDetailsFragmentArgs>()
+    private val showArgs by navArgs<ShowDetailsFragmentArgs>()
 
     private val api = TMDBInterface.invoke()
     private val movieRepository = MovieRepository(api)
@@ -35,16 +34,17 @@ class MovieDetailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMovieDetailsBinding
+        binding = FragmentShowDetailsBinding
             .inflate(inflater, container, false)
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
 
-        val movie = movieArgs.movieBundle
+        val movie = showArgs.showBundle
 
         getVideos(movie.id.toString())
         getCast(movie.id.toString())
@@ -52,7 +52,7 @@ class MovieDetailsFragment : Fragment() {
         Log.i(TAG, "onViewCreated: $movie")
 
         Glide.with(requireActivity())
-            .load(BASE_URL_IMAGE + movie.backdropPath)
+            .load(Constants.BASE_URL_IMAGE + movie.backdropPath)
             .into(binding.movieImage)
 
         setupCastingRecyclerView()
@@ -61,14 +61,15 @@ class MovieDetailsFragment : Fragment() {
 
 
         binding.apply {
-            titleText.text = movie.title
+            titleText.text = movie.name
             ratingBar.rating = movie.voteAverage.toFloat()
             overviewText.text = movie.overview
-            episodeText.text = movie.releaseDate
-            seasonText.text = movie.runtime.toString()
+            episodeText.text = movie.firstAirDate
+            //seasonText.text = movie.runtime.toString()
             airDateText.text = movie.originalLanguage
         }
     }
+
 
     private fun getCast(id: String) {
         lifecycleScope.launch {
@@ -119,5 +120,4 @@ class MovieDetailsFragment : Fragment() {
             Log.i("TAG", " $it")
         }
     }
-
 }

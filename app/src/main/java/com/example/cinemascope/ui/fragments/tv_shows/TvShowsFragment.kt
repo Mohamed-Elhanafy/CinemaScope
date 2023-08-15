@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.cinemascope.R
 import com.example.cinemascope.databinding.FragmentTvShowsBinding
 import com.example.cinemascope.ui.adapters.ListMoviesAdapter
+import com.example.cinemascope.ui.adapters.ListShowsAdapter
 import com.example.cinemascope.utils.Constants
 
 
@@ -24,7 +25,7 @@ class TvShowsFragment : Fragment() {
 
     //todo you need to chance this adapter with tvshows adapter
 
-    private val allShowsAdapter by lazy { ListMoviesAdapter() }
+    private val allShowsAdapter by lazy { ListShowsAdapter() }
 
 
     override fun onCreateView(
@@ -63,10 +64,10 @@ class TvShowsFragment : Fragment() {
         allShowsAdapter.onClick = {
             Log.i(TAG, "onViewCreated: $it")
             val bundle = Bundle().apply {
-                putParcelable(Constants.MOVIE_BUNDLE, it)
+                putParcelable(Constants.SHOWS_BUNDLE, it)
             }
             findNavController().navigate(
-                R.id.action_moviesFragment_to_movieDetailsFragment,
+                R.id.action_tvShowsFragment_to_showDetailsFragment,
                 bundle
             )
 

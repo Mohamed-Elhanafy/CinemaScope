@@ -6,6 +6,7 @@ import com.example.cinemascope.data.GenresResponse
 import com.example.cinemascope.data.Movie
 import com.example.cinemascope.data.MoviesResponse
 import com.example.cinemascope.data.ResultX
+import com.example.cinemascope.data.ShowResponse
 import com.example.cinemascope.data.Video
 import com.example.cinemascope.utils.Constants.API_KEY
 import com.example.cinemascope.utils.Constants.BASE_URL
@@ -34,7 +35,7 @@ interface TMDBInterface {
         @Query("language") language: String = "en-US",
         @Query("page") pageNumber: Int,
         @Query("region") region: String = "US",
-    ): Response<MoviesResponse>
+    ): Response<ShowResponse>
 
     @GET("genre/movie/list")
     suspend fun getMovieGenreList(

@@ -29,8 +29,8 @@
         android:label="fragment_tv_shows"
         tools:layout="@layout/fragment_tv_shows" >
         <action
-            android:id="@+id/action_tvShowsFragment_to_movieDetailsFragment"
-            app:destination="@id/movieDetailsFragment" />
+            android:id="@+id/action_tvShowsFragment_to_showDetailsFragment"
+            app:destination="@id/showDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailsFragment"
@@ -40,5 +40,13 @@
         <argument
             android:name="movie_bundle"
             app:argType="com.example.cinemascope.data.Movie" />
+    </fragment>
+    <fragment
+        android:id="@+id/showDetailsFragment"
+        android:name="com.example.cinemascope.ui.fragments.details.ShowDetailsFragment"
+        android:label="ShowDetailsFragment" >
+        <argument
+            android:name="show_bundle"
+            app:argType="com.example.cinemascope.data.Show" />
     </fragment>
 </navigation>
