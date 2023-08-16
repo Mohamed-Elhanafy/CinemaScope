@@ -12,9 +12,11 @@ CinemaScope is an Android app that allows users to discover information about mo
 - ...
 
 ## Screenshots
+<p align="middle">
 <img src="/res/Screenshot_1.png" width="260">
 <img src="/res/Screenshot_2.png" width="260">
 <img src="/res/Screenshot_3.png" width="260">
+</p>
 <img src="/res/Screenshot_4.png" width="260">
 <img src="/res/Screenshot_5.png" width="260">
 
