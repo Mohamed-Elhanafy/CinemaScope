@@ -5,6 +5,7 @@ import com.example.cinemascope.data.CastX
 import com.example.cinemascope.data.GenresResponse
 import com.example.cinemascope.data.Movie
 import com.example.cinemascope.data.MoviesResponse
+import com.example.cinemascope.data.Result
 import com.example.cinemascope.data.ResultX
 import com.example.cinemascope.data.ShowResponse
 import com.example.cinemascope.data.Video
@@ -71,8 +72,8 @@ interface TMDBInterface {
     suspend fun getDetailMovie(
         @Path("movieId") movieId: String,
         @Query("api_key") apiKey: String = API_KEY,
-        @Query("append_to_response") response: String
-    ): Response<Movie>
+ //       @Query("append_to_response") response: String
+    ): Response<Result>
 
     @GET("movie/{id}/videos")
     suspend fun getMovieVideos(

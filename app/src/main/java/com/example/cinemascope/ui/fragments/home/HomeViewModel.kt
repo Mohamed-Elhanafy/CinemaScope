@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.cinemascope.data.Genre
 import com.example.cinemascope.data.MoviesResponse
 import com.example.cinemascope.data.Movie
+import com.example.cinemascope.data.Result
 import com.example.cinemascope.network.TMDBInterface
 import com.example.cinemascope.repository.remote.MovieRepository
 import kotlinx.coroutines.launch
@@ -32,8 +33,6 @@ class HomeViewModel : ViewModel() {
     private val _highlightedMovie = MutableLiveData<Movie?>()
     val highlightedMovie: LiveData<Movie?> = _highlightedMovie
 
-    private val _genreName = MutableLiveData<List<Genre>?>()
-    val genreName: LiveData<List<Genre>?> = _genreName
     fun getPopularMovies() {
         viewModelScope.launch {
             val response = movieRepository.fetchPopularMovies(pageNumber = 1).body()
@@ -63,14 +62,9 @@ class HomeViewModel : ViewModel() {
             val highlightedMovie =
                 movieRepository.fetchPopularMovies(pageNumber = 1).body()?.results?.get(0)
             Log.i(TAG, "getHighlightedMovie: $highlightedMovie")
+
             _highlightedMovie.value = highlightedMovie
         }
     }
 
-    fun getGenreName() {
-        viewModelScope.launch {
-            val genres = movieRepository.fetchGenres().body()
-            _genreName.value = genres?.genres
-        }
-    }
 }

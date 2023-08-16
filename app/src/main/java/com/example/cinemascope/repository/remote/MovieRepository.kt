@@ -14,6 +14,8 @@ class MovieRepository(
 
     suspend fun fetchUpcomingMovies(pageNumber: Int) =
         service.getUpcomingMovies(pageNumber = pageNumber)
+    suspend fun fetchDetailMovie(movieId: String) =
+        service.getDetailMovie(movieId = movieId)
 
     suspend fun fetchInTheatersMovies(pageNumber: Int) =
         service.getNowShowingMovies(pageNumber = pageNumber)

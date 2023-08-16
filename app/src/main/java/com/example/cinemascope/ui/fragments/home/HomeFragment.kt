@@ -7,14 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.cinemascope.R
 import com.example.cinemascope.data.Genre
 import com.example.cinemascope.data.Movie
+import com.example.cinemascope.data.Result
 import com.example.cinemascope.databinding.FragmentHomeBinding
 import com.example.cinemascope.ui.adapters.ListMoviesAdapter
+import com.example.cinemascope.utils.Constants
 import com.example.cinemascope.utils.Constants.BASE_URL_IMAGE
+import kotlin.math.log
 
+private const val TAG = "HomeFragment"
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -24,8 +30,6 @@ class HomeFragment : Fragment() {
     private val upcomingMoviesAdapter by lazy { ListMoviesAdapter() }
     private val inTheatersMoviesAdapter by lazy { ListMoviesAdapter() }
 
-    private lateinit var genere: List<Genre>
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,7 +37,6 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding
             .inflate(inflater, container, false)
         return binding.root
-
 
     }
 
@@ -44,12 +47,12 @@ class HomeFragment : Fragment() {
         viewModel.getUpcomingMovies()
         viewModel.getInTheatersMovies()
         viewModel.getHighlightedMovie()
-        viewModel.getGenreName()
+
+
 
         observePopularMovies()
         observeUpcomingMovies()
         observeInTheatersMovies()
-        observeGenreName()
         observeHighlightedMovie()
 
 
@@ -60,12 +63,6 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun observeGenreName() {
-        viewModel.genreName.observe(viewLifecycleOwner) {
-            Log.i("TAG", "observeGenreName: $it ")
-            genere = it!!
-        }
-    }
 
     private fun observeHighlightedMovie() {
         viewModel.highlightedMovie.observe(viewLifecycleOwner) {
@@ -78,21 +75,22 @@ class HomeFragment : Fragment() {
             binding.hlMovieTitle.text = it?.title
             binding.hlNumOfVotes.text = it?.voteCount.toString()
             binding.hlRatingBar.rating = it?.voteAverage?.toFloat() ?: 0f
-            setupGenre(it)
 
+            binding.hlMovieImage.setOnClickListener { _ ->
+                Log.i("TAG", "observeHighlightedMovie: ${it?.id}")
+                navigateToMovieDetailsFragment(it)
+            }
         }
     }
 
-    private fun setupGenre(it: Movie?) {
-/*        binding.hlMovieGenrePrimary.text =
-            genere.find { genre -> genre.id == it?.genreIds?.get(0) }?.name
-
-        if (it?.genreIds?.get(1) != null) {
-            binding.hlMovieGenreSecondary.text =
-                genere.find { genre -> genre.id == it.genreIds[1] }?.name
-        } else {
-            binding.hlMovieGenreSecondary.visibility = View.GONE
-        }*/
+    private fun navigateToMovieDetailsFragment(it: Movie?) {
+        val bundle = Bundle().apply {
+            putParcelable(Constants.MOVIE_BUNDLE, it)
+        }
+        findNavController().navigate(
+            R.id.action_homeFragment_to_movieDetailsFragment,
+            bundle
+        )
     }
 
 
@@ -126,6 +124,7 @@ class HomeFragment : Fragment() {
         }
         popularMoviesAdapter.onClick = {
             Log.i("TAG", "setupPopularMoviesRecyclerView: $it")
+            navigateToMovieDetailsFragment(it)
         }
     }
 
@@ -140,6 +139,8 @@ class HomeFragment : Fragment() {
         }
         upcomingMoviesAdapter.onClick = {
             Log.i("TAG", "setupPopularMoviesRecyclerView: $it")
+            navigateToMovieDetailsFragment(it)
+
         }
     }
 
@@ -154,6 +155,8 @@ class HomeFragment : Fragment() {
         }
         inTheatersMoviesAdapter.onClick = {
             Log.i("TAG", "setupPopularMoviesRecyclerView: $it")
+            navigateToMovieDetailsFragment(it)
+
         }
     }
 
