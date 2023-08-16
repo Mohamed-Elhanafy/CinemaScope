@@ -17,9 +17,12 @@ CinemaScope is an Android app that allows users to discover information about mo
 <img src="/res/Screenshot_2.png" width="260">
 <img src="/res/Screenshot_3.png" width="260">
 </p>
+
+<p align="middle">
+
 <img src="/res/Screenshot_4.png" width="260">
 <img src="/res/Screenshot_5.png" width="260">
-
+</p>
 ## Installation
 
 1. Clone the repository to your local machine using:
